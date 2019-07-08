@@ -1,9 +1,10 @@
 package com.ming.timingbutton;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ming.timingbutton_lib.TimingButton;
 
@@ -14,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final TimingButton timingButton = findViewById(R.id.jump);
-
         timingButton.setText("跳过");
         timingButton.setTimerLisenter(TimingButton.BUTTON_TIMING, 6, new TimingButton.TimerLisenter() {
             @Override
@@ -30,10 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(boolean state) {
-                startActivity(new Intent(MainActivity.this, TwoActivity.class));
-                finish();
+
             }
         });
-
+        timingButton.start();
     }
 }

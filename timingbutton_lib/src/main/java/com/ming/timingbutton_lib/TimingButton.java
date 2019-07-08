@@ -1,31 +1,33 @@
 package com.ming.timingbutton_lib;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.appcompat.widget.AppCompatButton;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
  * Author MingRuQi
- * E-mail mingruqi@sina.cn
+ * E-mail mingruqi@sina.cn,
+ * <p>
  * DateTime 2019/2/15 16:18
  */
-public class TimingButton extends android.support.v7.widget.AppCompatButton {
+public class TimingButton extends AppCompatButton {
     public static final int BUTTON_TIMING = 0x00001;
     public static final int BUTTON_TIMER = 0x00002;
     private TimerLisenter timerLisenter = null;
     private boolean isTimer = false;//是否正在倒计时
     private int timerTime;//倒计时时间
     private int cashTimerTime;//倒计时时间缓存
-    private Activity activity;
     private Timer timer;
     private TimerTask timerTask;
     private Handler handler;
+    private int buttonType;
 
     public TimingButton(Context context) {
         this(context, null);
@@ -37,7 +39,6 @@ public class TimingButton extends android.support.v7.widget.AppCompatButton {
 
     public TimingButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        activity = (Activity) context;
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -48,7 +49,6 @@ public class TimingButton extends android.support.v7.widget.AppCompatButton {
                         overTimer();
                     }
                 }
-
             }
         };
     }
@@ -59,14 +59,10 @@ public class TimingButton extends android.support.v7.widget.AppCompatButton {
     private void overTimer() {
         isTimer = false;
         timerTask.cancel();
+        timer.cancel();
         timerTime = cashTimerTime;
         if (timerLisenter != null) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    timerLisenter.timerOver();
-                }
-            });
+            timerLisenter.timerOver();
         }
     }
 
@@ -93,8 +89,6 @@ public class TimingButton extends android.support.v7.widget.AppCompatButton {
     }
 
 
-
-
     /*---------------------------对外方法-----------------------------------*/
 
     /**
@@ -109,11 +103,12 @@ public class TimingButton extends android.support.v7.widget.AppCompatButton {
     /**
      * 设置倒计时监听
      *
-     * @param buttonType   按钮类型
+     * @param buttonType    按钮类型
      * @param timerTime     倒计时时间
-     * @param timerLisenter  监听器
+     * @param timerLisenter 监听器
      */
     public void setTimerLisenter(final int buttonType, int timerTime, final TimerLisenter timerLisenter) {
+        this.buttonType = buttonType;
         this.timerTime = cashTimerTime = timerTime;
         this.timerLisenter = timerLisenter;
         setOnClickListener(new OnClickListener() {
@@ -129,20 +124,30 @@ public class TimingButton extends android.support.v7.widget.AppCompatButton {
                         break;
                     case BUTTON_TIMING:
                         if (isTimer) {
-                            timerTask.cancel();
+                            overTimer();
                         }
-                        isTimer = false;
                         break;
                 }
-
             }
         });
-        if (buttonType == BUTTON_TIMING) {
+    }
+
+
+    /**
+     * 开始倒计时
+     */
+    public void start() {
+        if (buttonType == BUTTON_TIMING){
             startTimer();
         }
     }
 
-
+    /**
+     * 结束倒计时
+     */
+    public void stop() {
+        overTimer();
+    }
 
 
     /*------------------------接口----------------------------*/
@@ -166,8 +171,8 @@ public class TimingButton extends android.support.v7.widget.AppCompatButton {
         /**
          * 点击按钮
          *
-         * @param state false:未开始倒计时  true：正在倒计时
+         * @param timering false:未开始倒计时  true：正在倒计时
          */
-        void onClick(boolean state);
+        void onClick(boolean timering);
     }
 }

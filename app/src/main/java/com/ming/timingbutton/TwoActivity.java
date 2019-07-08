@@ -1,11 +1,12 @@
 package com.ming.timingbutton;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ming.timingbutton_lib.TimingButton;
 
@@ -27,7 +28,7 @@ public class TwoActivity extends AppCompatActivity {
                 Toast.makeText(TwoActivity.this, String.valueOf(var.isTimer()), Toast.LENGTH_SHORT).show();
             }
         });
-        var.setTimerLisenter(TimingButton.BUTTON_TIMER, 60, new TimingButton.TimerLisenter() {
+        var.setTimerLisenter(TimingButton.BUTTON_TIMER, 6, new TimingButton.TimerLisenter() {
             @Override
             public void clocking(int time) {
                 var.setText(String.valueOf(time) + "秒");
