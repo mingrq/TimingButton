@@ -7,7 +7,18 @@
 ### 使用
 #
 ```
-
+在 build.gradle 中添加
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+```
+dependencies {
+	        implementation 'com.github.mingrq:TimingButton:Tag'
+	}
 ```
 ### 方法
 #
