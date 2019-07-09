@@ -3,10 +3,10 @@ package com.ming.timingbutton_lib;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.view.View;
 
-import androidx.appcompat.widget.AppCompatButton;
 
 import java.util.Timer;
 import java.util.TimerTask;
