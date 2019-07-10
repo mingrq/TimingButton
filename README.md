@@ -25,10 +25,13 @@ dependencies {
 ### boolean isTimer()
 
 #### 获取是否正在倒计时
-
-_true：正在倒计时_
-
-_false：倒计时未开始_
+返回值
+``
+true：正在倒计时
+``
+``
+false：倒计时未开始
+``
 #
 ### void setTimerLisenter(final int buttonType, int timerTime, final TimerLisenter timerLisenter)
 
